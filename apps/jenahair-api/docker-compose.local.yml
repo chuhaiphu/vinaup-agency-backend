@@ -1,0 +1,49 @@
+services:
+  app:
+    image: ${DOCKER_IMAGE}:${VERSION}
+    container_name: ${DOCKER_CONTAINER_NAME:-jenahair}
+    ports:
+      - '8000:8000'
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - JWT_SECRET=${JWT_SECRET}
+      - VERSION=${VERSION}
+      - MEDIA_BASE_URL=${MEDIA_BASE_URL}
+      - UPLOAD_PATH=./local-uploads
+      - RECAPTCHA_PROJECT_ID=${RECAPTCHA_PROJECT_ID}
+      - RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_NAME=${ADMIN_NAME}
+      - SUPADMIN_EMAIL=${SUPADMIN_EMAIL}
+      - SUPADMIN_PASSWORD=${SUPADMIN_PASSWORD}
+      - SUPADMIN_NAME=${SUPADMIN_NAME}
+    volumes:
+      - ./local-uploads:/app/public/media
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15
+    ports:
+      - '5433:5432'
+    container_name: jenahair_postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge

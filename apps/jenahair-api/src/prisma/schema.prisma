@@ -1,0 +1,443 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         String      @id @default(uuid())
+  email      String      @unique
+  password   String
+  name       String?
+  role       String      @default("user")
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now()) @updatedAt
+  tours      Tour[]
+  pages      Page[]
+  blogs      Blog[]
+  diaries    Diary[]
+  actionLogs ActionLog[]
+}
+
+model SmtpConfig {
+  id           String   @id @default(uuid())
+  host         String
+  port         Int
+  secure       Boolean  @default(false)
+  username     String
+  password     String
+  fromName     String
+  fromEmail    String
+  receiveEmail String?
+  updatedAt    DateTime @updatedAt
+}
+
+model AppConfig {
+  id                 String  @id @default(uuid())
+  maintenanceMode    Boolean @default(false)
+  faviconUrl         String?
+  logoUrl            String?
+  emailContact       String?
+  phoneContact       String?
+  addressContact     String?
+  websiteTitle       String?
+  websiteDescription String?
+}
+
+model ThemeConfig {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model TourCategory {
+  id                             String                          @id @default(uuid())
+  title                          String
+  description                    String?
+  parentId                       String?
+  parent                         TourCategory?                   @relation("ParentChildrenTourCategory", fields: [parentId], references: [id], onDelete: Cascade)
+  children                       TourCategory[]                  @relation("ParentChildrenTourCategory")
+  sortOrder                      Int                             @default(0)
+  videoUrl                       String?
+  videoThumbnailUrl              String?
+  videoPosition                  String                          @default("bottom")
+  mainImageUrl                   String?
+  endpoint                       String                          @unique
+  createdAt                      DateTime                        @default(now())
+  updatedAt                      DateTime                        @default(now()) @updatedAt
+  tourCategoryTours              TourCategoryTour[]
+  tourCategoryCustomTourRequests TourCategoryCustomTourRequest[]
+
+  @@unique([parentId, sortOrder])
+}
+
+model TourCategoryTour {
+  id             String       @id @default(uuid())
+  tourCategoryId String
+  tourCategory   TourCategory @relation(fields: [tourCategoryId], references: [id], onDelete: Cascade)
+  tourId         String
+  sortOrder      Int          @default(0)
+  tour           Tour         @relation(fields: [tourId], references: [id], onDelete: Cascade)
+
+  @@unique([tourCategoryId, tourId])
+}
+
+model Menu {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  parentId    String?
+  parent      Menu?    @relation("ParentChildrenMenu", fields: [parentId], references: [id], onDelete: Cascade)
+  children    Menu[]   @relation("ParentChildrenMenu")
+  customUrl   String?
+  isRoot      Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  @@unique([parentId, sortOrder])
+}
+
+model Tour {
+  id                       String             @id @default(uuid())
+  title                    String
+  description              String?
+  content                  String?
+  country                  String             @default("Vietnam")
+  destinations             String[]
+  endpoint                 String             @unique
+  startDate                DateTime           @default(now())
+  durationDays             Float              @default(7)
+  visibility               String             @default("public")
+  sortOrder                Int                @default(0)
+  type                     String             @default("new")
+  price                    Float              @default(0)
+  discountPrice            Float              @default(0)
+  childPrice               Float              @default(0)
+  videoUrl                 String?
+  videoThumbnailUrl        String?
+  videoPosition            String             @default("bottom")
+  mainImageUrl             String?
+  additionalImageUrls      String[]
+  additionalImagesPosition String             @default("top")
+  likes                    Int                @default(0)
+  views                    Int                @default(0)
+  createdBy                User?              @relation(fields: [createdByUserId], references: [id])
+  createdByUserId          String?
+  createdAt                DateTime           @default(now())
+  updatedAt                DateTime           @default(now()) @updatedAt
+  tourCategoryTours        TourCategoryTour[]
+  bookings                 Booking[]
+  tourViews                TourView[]
+  tourLikes                TourLike[]
+}
+
+model Booking {
+  id            String   @id @default(uuid())
+  tourId        String
+  tour          Tour     @relation(fields: [tourId], references: [id])
+  status        String   @default("pending")
+  adultCount    Int      @default(0)
+  childCount    Int      @default(0)
+  adultPrice    Float    @default(0)
+  childPrice    Float    @default(0)
+  totalPrice    Float    @default(0)
+  customerName  String
+  customerEmail String
+  customerPhone String
+  customerNotes String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
+}
+
+model CustomerContact {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String
+  notes     String?
+  createdAt DateTime @default(now())
+}
+
+model CustomTourRequest {
+  id                             String                          @id @default(uuid())
+  startDate                      DateTime
+  endDate                        DateTime
+  adultCount                     Int                             @default(0)
+  childCount                     Int                             @default(0)
+  destinations                   String[]
+  tourCategoryCustomTourRequests TourCategoryCustomTourRequest[]
+  hotelType                      String?
+  roomType                       String?
+  customerName                   String
+  customerEmail                  String
+  customerPhone                  String
+  customerNotes                  String?
+  createdAt                      DateTime                        @default(now())
+  updatedAt                      DateTime                        @default(now()) @updatedAt
+}
+
+model TourCategoryCustomTourRequest {
+  id                  String            @id @default(uuid())
+  customTourRequestId String
+  tourCategoryId      String
+  customTourRequest   CustomTourRequest @relation(fields: [customTourRequestId], references: [id], onDelete: Cascade)
+  tourCategory        TourCategory      @relation(fields: [tourCategoryId], references: [id])
+
+  @@unique([customTourRequestId, tourCategoryId])
+}
+
+model Page {
+  id                       String   @id @default(uuid())
+  title                    String
+  type                     String   @default("landing")
+  description              String?
+  content                  String?
+  country                  String   @default("Vietnam")
+  destinations             String[]
+  endpoint                 String   @unique
+  visibility               String   @default("public")
+  videoUrl                 String?
+  videoThumbnailUrl        String?
+  videoPosition            String   @default("bottom")
+  mainImageUrl             String?
+  additionalImageUrls      String[]
+  additionalImagesPosition String   @default("top")
+  createdBy                User?    @relation(fields: [createdByUserId], references: [id])
+  createdByUserId          String?
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @default(now()) @updatedAt
+}
+
+model BlogCategory {
+  id                String             @id @default(uuid())
+  title             String
+  description       String?
+  parentId          String?
+  parent            BlogCategory?      @relation("ParentChildrenBlogCategory", fields: [parentId], references: [id], onDelete: Cascade)
+  children          BlogCategory[]     @relation("ParentChildrenBlogCategory")
+  sortOrder         Int                @default(0)
+  videoUrl          String?
+  videoThumbnailUrl String?
+  videoPosition     String             @default("bottom")
+  mainImageUrl      String?
+  endpoint          String             @unique
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @default(now()) @updatedAt
+  blogCategoryBlogs BlogCategoryBlog[]
+
+  @@unique([parentId, sortOrder])
+}
+
+model BlogCategoryBlog {
+  id             String       @id @default(uuid())
+  blogCategoryId String
+  blogCategory   BlogCategory @relation(fields: [blogCategoryId], references: [id], onDelete: Cascade)
+  blogId         String
+  sortOrder      Int          @default(0)
+  blog           Blog         @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  @@unique([blogCategoryId, blogId])
+}
+
+model Blog {
+  id                       String             @id @default(uuid())
+  title                    String
+  description              String?
+  content                  String?
+  country                  String             @default("Vietnam")
+  destinations             String[]
+  endpoint                 String             @unique
+  visibility               String             @default("public")
+  sortOrder                Int                @default(0)
+  videoUrl                 String?
+  videoThumbnailUrl        String?
+  videoPosition            String             @default("bottom")
+  mainImageUrl             String?
+  additionalImageUrls      String[]
+  additionalImagesPosition String             @default("top")
+  likes                    Int                @default(0)
+  views                    Int                @default(0)
+  createdBy                User?              @relation(fields: [createdByUserId], references: [id])
+  createdByUserId          String?
+  createdAt                DateTime           @default(now())
+  updatedAt                DateTime           @default(now()) @updatedAt
+  blogCategoryBlogs        BlogCategoryBlog[]
+  blogViews                BlogView[]
+  blogLikes                BlogLike[]
+}
+
+model Media {
+  id          String   @id @default(uuid())
+  name        String
+  title       String?
+  description String?
+  url         String   @unique
+  type        String
+  folder      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}
+
+model SectionUICredentials {
+  id                String             @id @default(uuid())
+  code              String             @unique
+  componentKey      String
+  propertyFormat    Json
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @default(now()) @updatedAt
+  dynamicSectionUIs DynamicSectionUI[]
+}
+
+model DynamicSectionUI {
+  id                     String                @id @default(uuid())
+  position               Int                   @unique
+  sectionUICredentialsId String?
+  sectionUICredentials   SectionUICredentials? @relation(fields: [sectionUICredentialsId], references: [id])
+  properties             Json?
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @default(now()) @updatedAt
+}
+
+model TourView {
+  id        String   @id @default(uuid())
+  tourId    String
+  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  ipAddress String
+  viewedAt  DateTime @default(now())
+
+  @@unique([tourId, ipAddress, viewedAt])
+  @@index([tourId, ipAddress, viewedAt])
+}
+
+model BlogView {
+  id        String   @id @default(uuid())
+  blogId    String
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  ipAddress String
+  viewedAt  DateTime @default(now())
+
+  @@unique([blogId, ipAddress, viewedAt])
+  @@index([blogId, ipAddress, viewedAt])
+}
+
+model TourLike {
+  id        String   @id @default(uuid())
+  tourId    String
+  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  ipAddress String
+  likedAt   DateTime @default(now())
+
+  @@unique([tourId, ipAddress])
+  @@index([tourId, ipAddress])
+}
+
+model BlogLike {
+  id        String   @id @default(uuid())
+  blogId    String
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  ipAddress String
+  likedAt   DateTime @default(now())
+
+  @@unique([blogId, ipAddress])
+  @@index([blogId, ipAddress])
+}
+
+model DiaryCategory {
+  id                   String               @id @default(uuid())
+  title                String
+  description          String?
+  parentId             String?
+  parent               DiaryCategory?       @relation("ParentChildrenDiaryCategory", fields: [parentId], references: [id], onDelete: Cascade)
+  children             DiaryCategory[]      @relation("ParentChildrenDiaryCategory")
+  sortOrder            Int                  @default(0)
+  videoUrl             String?
+  videoThumbnailUrl    String?
+  videoPosition        String               @default("bottom")
+  mainImageUrl         String?
+  endpoint             String               @unique
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @default(now()) @updatedAt
+  diaryCategoryDiaries DiaryCategoryDiary[]
+
+  @@unique([parentId, sortOrder])
+}
+
+model DiaryCategoryDiary {
+  id              String        @id @default(uuid())
+  diaryCategoryId String
+  diaryCategory   DiaryCategory @relation(fields: [diaryCategoryId], references: [id], onDelete: Cascade)
+  diaryId         String
+  sortOrder       Int           @default(0)
+  diary           Diary         @relation(fields: [diaryId], references: [id], onDelete: Cascade)
+
+  @@unique([diaryCategoryId, diaryId])
+}
+
+model Diary {
+  id                       String               @id @default(uuid())
+  title                    String
+  description              String?
+  content                  String?
+  country                  String               @default("Vietnam")
+  destinations             String[]
+  endpoint                 String               @unique
+  visibility               String               @default("public")
+  sortOrder                Int                  @default(0)
+  videoUrl                 String?
+  videoThumbnailUrl        String?
+  videoPosition            String               @default("bottom")
+  mainImageUrl             String?
+  additionalImageUrls      String[]
+  additionalImagesPosition String               @default("top")
+  likes                    Int                  @default(0)
+  views                    Int                  @default(0)
+  createdBy                User?                @relation(fields: [createdByUserId], references: [id])
+  createdByUserId          String?
+  createdAt                DateTime             @default(now())
+  updatedAt                DateTime             @default(now()) @updatedAt
+  diaryCategoryDiaries     DiaryCategoryDiary[]
+  diaryViews               DiaryView[]
+  diaryLikes               DiaryLike[]
+}
+
+model DiaryView {
+  id        String   @id @default(uuid())
+  diaryId   String
+  diary     Diary    @relation(fields: [diaryId], references: [id], onDelete: Cascade)
+  ipAddress String
+  viewedAt  DateTime @default(now())
+
+  @@unique([diaryId, ipAddress, viewedAt])
+  @@index([diaryId, ipAddress, viewedAt])
+}
+
+model DiaryLike {
+  id        String   @id @default(uuid())
+  diaryId   String
+  diary     Diary    @relation(fields: [diaryId], references: [id], onDelete: Cascade)
+  ipAddress String
+  likedAt   DateTime @default(now())
+
+  @@unique([diaryId, ipAddress])
+  @@index([diaryId, ipAddress])
+}
+
+model ActionLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([userId, createdAt])
+  @@index([createdAt])
+}
