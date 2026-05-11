@@ -3,7 +3,7 @@ import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 export class CreateMediaRequestDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsString()
   @IsOptional()
@@ -15,13 +15,13 @@ export class CreateMediaRequestDto {
 
   @IsString()
   @IsNotEmpty()
-  url: string;
+  url!: string;
 
   @IsString()
   @IsNotEmpty()
-  type: string;
+  type!: string;
 
   @IsString()
   @IsNotEmpty()
-  folder: string;
+  folder!: string;
 }

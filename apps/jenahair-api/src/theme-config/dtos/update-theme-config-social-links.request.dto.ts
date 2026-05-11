@@ -6,5 +6,5 @@ export class UpdateThemeConfigSocialLinksRequestDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => SocialLinkItemDto)
-  value: SocialLinkItemDto[];
+  value!: SocialLinkItemDto[];
 }

@@ -4,11 +4,11 @@ import { Type } from 'class-transformer';
 export class CreateBlogCategoryBlogRequestDto {
   @IsString()
   @IsNotEmpty()
-  blogCategoryId: string;
+  blogCategoryId!: string;
 
   @IsString()
   @IsNotEmpty()
-  blogId: string;
+  blogId!: string;
 
   @IsNumber()
   @IsOptional()

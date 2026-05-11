@@ -2,10 +2,10 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class CarouselSlideItemDto {
     @IsString()
-    id: string;
+    id!: string;
 
     @IsString()
-    imageUrl: string;
+    imageUrl!: string;
 
     @IsOptional()
     @IsString()

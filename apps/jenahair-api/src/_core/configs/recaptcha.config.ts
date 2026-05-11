@@ -7,7 +7,7 @@ export interface RecaptchaConfig {
 
 export default registerAs('recaptcha', (): RecaptchaConfig => {
   return {
-    projectId: process.env.RECAPTCHA_PROJECT_ID || '',
-    siteKey: process.env.RECAPTCHA_SITE_KEY || '',
+    projectId: process.env.RECAPTCHA_PROJECT_ID!,
+    siteKey: process.env.RECAPTCHA_SITE_KEY!,
   };
 });

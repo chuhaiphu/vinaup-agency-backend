@@ -6,5 +6,5 @@ export class UpdateThemeConfigMarqueeRequestDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => MarqueeSlideItemDto)
-  value: MarqueeSlideItemDto[];
+  value!: MarqueeSlideItemDto[];
 }

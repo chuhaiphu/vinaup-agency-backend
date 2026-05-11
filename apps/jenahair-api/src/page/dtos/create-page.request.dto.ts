@@ -3,7 +3,7 @@ import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 export class CreatePageRequestDto {
   @IsString()
   @IsNotEmpty()
-  title: string;
+  title!: string;
 
   @IsString()
   @IsOptional()
@@ -23,15 +23,15 @@ export class CreatePageRequestDto {
 
   @IsArray()
   @IsString({ each: true })
-  destinations: string[];
+  destinations!: string[];
 
   @IsString()
   @IsNotEmpty()
-  endpoint: string;
+  endpoint!: string;
 
   @IsString()
   @IsNotEmpty()
-  userId: string;
+  userId!: string;
 
   @IsString()
   @IsOptional()

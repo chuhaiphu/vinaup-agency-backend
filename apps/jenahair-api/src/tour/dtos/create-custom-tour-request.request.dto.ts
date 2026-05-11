@@ -11,10 +11,10 @@ import { Type } from 'class-transformer';
 
 export class CreateCustomTourRequestRequestDto {
   @IsDateString({ strict: true })
-  startDate: Date;
+  startDate!: Date;
 
   @IsDateString({ strict: true })
-  endDate: Date;
+  endDate!: Date;
 
   @IsNumber()
   @IsOptional()
@@ -46,15 +46,15 @@ export class CreateCustomTourRequestRequestDto {
 
   @IsString()
   @IsNotEmpty()
-  customerName: string;
+  customerName!: string;
 
   @IsEmail()
   @IsNotEmpty()
-  customerEmail: string;
+  customerEmail!: string;
 
   @IsString()
   @IsNotEmpty()
-  customerPhone: string;
+  customerPhone!: string;
 
   @IsString()
   @IsOptional()

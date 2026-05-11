@@ -2,14 +2,14 @@ import { IsString } from 'class-validator';
 
 export class MarqueeSlideItemDto {
   @IsString()
-  id: string;
+  id!: string;
 
   @IsString()
-  title: string;
+  title!: string;
 
   @IsString()
-  description: string;
+  description!: string;
 
   @IsString()
-  imageUrl: string;
+  imageUrl!: string;
 }

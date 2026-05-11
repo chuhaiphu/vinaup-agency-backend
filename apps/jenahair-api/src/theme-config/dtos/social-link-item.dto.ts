@@ -2,15 +2,15 @@ import { IsBoolean, IsString, IsUrl } from 'class-validator';
 
 export class SocialLinkItemDto {
   @IsString()
-  id: string;
+  id!: string;
 
   @IsString()
-  platform: string;
+  platform!: string;
 
   @IsString()
   @IsUrl()
-  url: string;
+  url!: string;
 
   @IsBoolean()
-  isActive: boolean;
+  isActive!: boolean;
 }

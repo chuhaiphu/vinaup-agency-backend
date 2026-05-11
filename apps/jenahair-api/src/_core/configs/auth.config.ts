@@ -50,12 +50,12 @@ export default registerAs('auth', (): AuthConfig => {
       },
     },
     jwt: {
-      secret: process.env.JWT_SECRET || '',
+      secret: process.env.JWT_SECRET!,
       expiresIn: ONE_DAY * 7,
     },
     defaultValue: {
-      supAdminEmail: supAdminEmail || '',
-      supAdminPassword: supAdminPassword || '',
+      supAdminEmail: supAdminEmail!,
+      supAdminPassword: supAdminPassword!,
       defaultPassword: 'jenaHair@2026',
     },
   };

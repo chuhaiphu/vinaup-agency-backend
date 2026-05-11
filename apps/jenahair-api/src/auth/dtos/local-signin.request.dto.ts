@@ -2,9 +2,9 @@ import { IsNotEmpty, IsString } from 'class-validator';
 
 export class LocalSignInRequestDto {
   @IsNotEmpty()
-  email: string;
+  email!: string;
 
   @IsString()
   @IsNotEmpty()
-  password: string;
+  password!: string;
 }

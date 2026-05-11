@@ -6,5 +6,5 @@ export class UpdateThemeConfigCarouselRequestDto {
     @IsArray()
     @ValidateNested({ each: true })
     @Type(() => CarouselSlideItemDto)
-    value: CarouselSlideItemDto[];
+    value!: CarouselSlideItemDto[];
 }

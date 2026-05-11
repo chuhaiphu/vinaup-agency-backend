@@ -3,9 +3,9 @@ import { IsString, IsNotEmpty } from 'class-validator';
 export class CreateTourCategoryCustomTourRequestRequestDto {
   @IsString()
   @IsNotEmpty()
-  tourCategoryId: string;
+  tourCategoryId!: string;
 
   @IsString()
   @IsNotEmpty()
-  customTourRequestId: string;
+  customTourRequestId!: string;
 }

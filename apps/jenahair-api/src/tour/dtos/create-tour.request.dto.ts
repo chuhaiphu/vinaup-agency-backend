@@ -10,7 +10,7 @@ import { Type } from 'class-transformer';
 
 export class CreateTourRequestDto {
   @IsString()
-  title: string;
+  title!: string;
 
   @IsString()
   @IsOptional()
@@ -26,15 +26,15 @@ export class CreateTourRequestDto {
 
   @IsArray()
   @IsString({ each: true })
-  destinations: string[];
+  destinations!: string[];
 
   @IsString()
   @IsNotEmpty()
-  endpoint: string;
+  endpoint!: string;
 
   @IsString()
   @IsNotEmpty()
-  userId: string;
+  userId!: string;
 
   @IsOptional()
   @IsDateString({ strict: true })

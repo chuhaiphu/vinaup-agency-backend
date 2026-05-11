@@ -3,13 +3,13 @@ import { IsNotEmpty, IsObject, IsString } from 'class-validator';
 export class CreateSectionUICredentialsRequestDto {
   @IsString()
   @IsNotEmpty()
-  code: string;
+  code!: string;
 
   @IsString()
   @IsNotEmpty()
-  componentKey: string;
+  componentKey!: string;
 
   @IsObject()
   @IsNotEmpty()
-  propertyFormat: object;
+  propertyFormat!: object;
 }

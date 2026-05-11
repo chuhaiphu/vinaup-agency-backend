@@ -4,7 +4,7 @@ import { Type } from 'class-transformer';
 export class CreateBookingRequestDto {
   @IsString()
   @IsNotEmpty()
-  tourId: string;
+  tourId!: string;
 
   @IsNumber()
   @IsOptional()
@@ -18,15 +18,15 @@ export class CreateBookingRequestDto {
 
   @IsString()
   @IsNotEmpty()
-  customerName: string;
+  customerName!: string;
 
   @IsEmail()
   @IsNotEmpty()
-  customerEmail: string;
+  customerEmail!: string;
 
   @IsString()
   @IsNotEmpty()
-  customerPhone: string;
+  customerPhone!: string;
 
   @IsString()
   @IsOptional()

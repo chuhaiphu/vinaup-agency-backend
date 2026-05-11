@@ -9,7 +9,7 @@ import { Type } from 'class-transformer';
 
 export class CreateDiaryRequestDto {
   @IsString()
-  title: string;
+  title!: string;
 
   @IsString()
   @IsOptional()
@@ -25,15 +25,15 @@ export class CreateDiaryRequestDto {
 
   @IsArray()
   @IsString({ each: true })
-  destinations: string[];
+  destinations!: string[];
 
   @IsString()
   @IsNotEmpty()
-  endpoint: string;
+  endpoint!: string;
 
   @IsString()
   @IsNotEmpty()
-  userId: string;
+  userId!: string;
 
   @IsString()
   @IsOptional()

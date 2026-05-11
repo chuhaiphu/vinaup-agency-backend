@@ -4,11 +4,11 @@ import { Type } from 'class-transformer';
 export class CreateDiaryCategoryDiaryRequestDto {
   @IsString()
   @IsNotEmpty()
-  diaryCategoryId: string;
+  diaryCategoryId!: string;
 
   @IsString()
   @IsNotEmpty()
-  diaryId: string;
+  diaryId!: string;
 
   @IsNumber()
   @IsOptional()

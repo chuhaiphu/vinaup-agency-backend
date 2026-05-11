@@ -3,7 +3,7 @@ import { IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-vali
 export class CreateDynamicSectionUIRequestDto {
   @IsNumber()
   @IsNotEmpty()
-  position: number;
+  position!: number;
 
   @IsString()
   @IsOptional()

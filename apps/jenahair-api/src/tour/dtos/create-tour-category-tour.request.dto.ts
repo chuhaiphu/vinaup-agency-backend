@@ -4,11 +4,11 @@ import { Type } from 'class-transformer';
 export class CreateTourCategoryTourRequestDto {
   @IsString()
   @IsNotEmpty()
-  tourCategoryId: string;
+  tourCategoryId!: string;
 
   @IsString()
   @IsNotEmpty()
-  tourId: string;
+  tourId!: string;
 
   @IsNumber()
   @IsOptional()

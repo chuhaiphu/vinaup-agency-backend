@@ -4,11 +4,11 @@ import { Type } from 'class-transformer';
 export class UpdateSmtpRequestDto {
   @IsString()
   @IsNotEmpty()
-  host: string;
+  host!: string;
 
   @IsNumber()
   @Type(() => Number)
-  port: number;
+  port!: number;
 
   @IsBoolean()
   @IsOptional()
@@ -16,7 +16,7 @@ export class UpdateSmtpRequestDto {
 
   @IsString()
   @IsNotEmpty()
-  username: string;
+  username!: string;
 
   @IsString()
   @IsNotEmpty()
@@ -25,11 +25,11 @@ export class UpdateSmtpRequestDto {
 
   @IsString()
   @IsNotEmpty()
-  fromName: string;
+  fromName!: string;
 
   @IsEmail()
   @IsNotEmpty()
-  fromEmail: string;
+  fromEmail!: string;
 
   @IsEmail()
   @IsOptional()
