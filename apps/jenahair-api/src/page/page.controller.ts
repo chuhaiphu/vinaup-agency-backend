@@ -15,7 +15,7 @@ import { CreatePageRequestDto } from 'src/page/dtos/create-page.request.dto';
 import { UpdatePageRequestDto } from 'src/page/dtos/update-page.request.dto';
 import { HttpResponse } from 'src/_common/interfaces/interface';
 import { CurrentUser } from 'src/_core/decorators/current-user.decorator';
-import { JwtValidationReturn } from 'src/_common/interfaces/interface';
+import type { JwtValidationReturn } from 'src/_common/interfaces/interface';
 import { PageResponseDto } from 'src/page/dtos/page.response.dto';
 
 @Controller('pages')

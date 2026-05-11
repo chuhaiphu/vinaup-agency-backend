@@ -17,7 +17,7 @@ import { UpdateDiaryRequestDto } from 'src/diary/dtos/update-diary.request.dto';
 import { DiaryFilterParamDto } from 'src/diary/dtos/diary-filter.param.dto';
 import { HttpResponse } from 'src/_common/interfaces/interface';
 import { CurrentUser } from 'src/_core/decorators/current-user.decorator';
-import { JwtValidationReturn } from 'src/_common/interfaces/interface';
+import type { JwtValidationReturn } from 'src/_common/interfaces/interface';
 import { ClientIp } from 'src/_core/decorators/client-ip.decorator';
 import { DiaryResponseDto } from 'src/diary/dtos/diary.response.dto';
 

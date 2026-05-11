@@ -18,7 +18,7 @@ import type { HttpResponse } from 'src/_common/interfaces/interface';
 import { AuthResponseDto } from 'src/auth/dtos/auth.response.dto';
 import { JwtAuthGuard } from 'src/_core/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/_core/decorators/current-user.decorator';
-import { JwtValidationReturn } from 'src/_common/interfaces/interface';
+import type { JwtValidationReturn } from 'src/_common/interfaces/interface';
 
 @Controller('auth')
 export class AuthController {

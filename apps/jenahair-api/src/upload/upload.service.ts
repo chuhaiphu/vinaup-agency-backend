@@ -3,7 +3,7 @@ import {
   Inject,
   BadRequestException,
 } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
+import type { ConfigType } from '@nestjs/config';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 import uploadConfig from 'src/_core/configs/upload.config';

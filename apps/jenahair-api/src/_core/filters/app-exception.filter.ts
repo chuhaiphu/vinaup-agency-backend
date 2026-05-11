@@ -32,7 +32,7 @@ export class AppExceptionFilter implements ExceptionFilter {
       };
 
       this.logger.error(
-        String(exception),
+        exception instanceof Error ? exception.message : JSON.stringify(exception),
         exception instanceof Error ? exception.stack : undefined
       );
     }

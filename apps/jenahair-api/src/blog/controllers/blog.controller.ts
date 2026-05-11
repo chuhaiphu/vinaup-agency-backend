@@ -17,7 +17,7 @@ import { UpdateBlogRequestDto } from 'src/blog/dtos/update-blog.request.dto';
 import { BlogFilterParamDto } from 'src/blog/dtos/blog-filter.param.dto';
 import { HttpResponse } from 'src/_common/interfaces/interface';
 import { CurrentUser } from 'src/_core/decorators/current-user.decorator';
-import { JwtValidationReturn } from 'src/_common/interfaces/interface';
+import type { JwtValidationReturn } from 'src/_common/interfaces/interface';
 import { ClientIp } from 'src/_core/decorators/client-ip.decorator';
 import { BlogResponseDto } from 'src/blog/dtos/blog.response.dto';
 

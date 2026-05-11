@@ -1,6 +1,6 @@
 // src/recaptcha/recaptcha.service.ts
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
+import type { ConfigType } from '@nestjs/config';
 import { RecaptchaEnterpriseServiceClient } from '@google-cloud/recaptcha-enterprise';
 import recaptchaConfig from 'src/_core/configs/recaptcha.config';
 

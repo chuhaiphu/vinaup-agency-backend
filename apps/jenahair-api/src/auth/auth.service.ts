@@ -115,7 +115,7 @@ export class AuthService {
       throw new BadRequestException('Target user not found');
     }
 
-    const hashedPassword = hashSync(this.authConf.defaultValue.defaultPassword!, 10);
+    const hashedPassword = hashSync(this.authConf.defaultValue.defaultPassword || '', 10);
 
     await this.prismaService.user.update({
       where: { id: targetUserId },
